@@ -16,7 +16,7 @@ var env = process.env.NODE_ENV || 'development' ,
 var config_path = config.root + '/setup/config'
 
 
-app.use(express.static(config.static_path + '/ui'));
+app.use(express.static(config.static_path));
 
 /*app.get('/', function(req, res,next) {
     res.sendFile(__dirname + '/../ui/index.html');
@@ -59,6 +59,10 @@ io.on('connection', function(client){
     console.log(game.addPlayer(gameId, name));
     console.log(JSON.stringify(gameMaster));
   });
+
+  client.on('getGameMaster', function(callback){
+    return callback(gameMaster)
+  })
 
 })
 

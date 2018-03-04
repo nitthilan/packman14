@@ -1,4 +1,4 @@
-var Pacman = function(game, key) {   
+var singlePacman = function(game, key) {   
     this.game = game;
     this.key = key;
     
@@ -41,7 +41,7 @@ var Pacman = function(game, key) {
     this.move(Phaser.LEFT);    
 };
 
-Pacman.prototype.move = function(direction) {
+singlePacman.prototype.move = function(direction) {
     if (direction === Phaser.NONE) {
         this.sprite.body.velocity.x = this.sprite.body.velocity.y = 0;
         return;
@@ -83,7 +83,7 @@ Pacman.prototype.move = function(direction) {
     this.current = direction;
 };
 
-Pacman.prototype.update = function() {
+singlePacman.prototype.update = function() {
     if (!this.isDead) {
         this.game.physics.arcade.collide(this.sprite, this.game.layer);
         this.game.physics.arcade.overlap(this.sprite, this.game.dots, this.eatDot, null, this);
@@ -118,7 +118,7 @@ Pacman.prototype.update = function() {
     }
 };
 
-Pacman.prototype.checkKeys = function(cursors) {
+singlePacman.prototype.checkKeys = function(cursors) {
     if (cursors.left.isDown ||
         cursors.right.isDown ||
         cursors.up.isDown ||
@@ -153,7 +153,7 @@ Pacman.prototype.checkKeys = function(cursors) {
     }
 };
 
-Pacman.prototype.eatDot = function(pacman, dot) {
+singlePacman.prototype.eatDot = function(pacman, dot) {
     dot.kill();
     
     this.game.score ++;
@@ -165,7 +165,7 @@ Pacman.prototype.eatDot = function(pacman, dot) {
     }
 };
 
-Pacman.prototype.eatPill = function(pacman, pill) {
+singlePacman.prototype.eatPill = function(pacman, pill) {
     pill.kill();
     
     this.game.score ++;
@@ -174,7 +174,7 @@ Pacman.prototype.eatPill = function(pacman, pill) {
     this.game.enterFrightenedMode();
 };
 
-Pacman.prototype.turn = function () {
+singlePacman.prototype.turn = function () {
     var cx = Math.floor(this.sprite.x);
     var cy = Math.floor(this.sprite.y);
 
@@ -195,7 +195,8 @@ Pacman.prototype.turn = function () {
     return true;
 };
 
-Pacman.prototype.checkDirection = function (turnTo) {
+singlePacman.prototype.checkDirection = function (turnTo) {
+    // console.log("Turn To value ",turnTo)
     if (this.turning === turnTo || this.directions[turnTo] === null || this.directions[turnTo].index !== this.safetile)
     {
         //  Invalid direction if they're already set to turn that way
@@ -219,10 +220,10 @@ Pacman.prototype.checkDirection = function (turnTo) {
     }
 };
 
-Pacman.prototype.getPosition = function () {
+singlePacman.prototype.getPosition = function () {
     return new Phaser.Point((this.marker.x * this.gridsize) + (this.gridsize / 2), (this.marker.y * this.gridsize) + (this.gridsize / 2));
 };
 
-Pacman.prototype.getCurrentDirection = function() {
+singlePacman.prototype.getCurrentDirection = function() {
     return this.current;
 };

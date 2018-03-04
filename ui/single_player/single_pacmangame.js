@@ -1,10 +1,10 @@
 //var game = new Phaser.Game(448, 496, Phaser.AUTO, "game");
 
 var username = 'JohnD';
-var PacmanGame = function () {};
+var singlePacmanGame = function () {};
 
 
-PacmanGame.prototype = {
+singlePacmanGame.prototype = {
 
 
 	resetData: function(){
@@ -138,7 +138,7 @@ PacmanGame.prototype = {
         this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
 		// Our hero
-        this.pacman = new Pacman(this, "pacman");
+        this.pacman = new singlePacman(this, "pacman");
 
         // Score and debug texts
         this.scoreText = game.add.text(8, 272, "Score: " + this.score, { fontSize: "16px", fill: "#fff" });
@@ -155,10 +155,10 @@ PacmanGame.prototype = {
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         
         // Ghosts
-        this.blinky = new Ghost(this, "ghosts", "blinky", {x:13, y:11}, Phaser.RIGHT);
-        this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
-        this.inky = new Ghost(this, "ghosts", "inky", {x:14, y:14}, Phaser.RIGHT);
-        this.clyde = new Ghost(this, "ghosts", "clyde", {x:17, y:14}, Phaser.LEFT);
+        this.blinky = new singleGhost(this, "ghosts", "blinky", {x:13, y:11}, Phaser.RIGHT);
+        this.pinky = new singleGhost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
+        this.inky = new singleGhost(this, "ghosts", "inky", {x:14, y:14}, Phaser.RIGHT);
+        this.clyde = new singleGhost(this, "ghosts", "clyde", {x:17, y:14}, Phaser.LEFT);
         this.ghosts.push(this.clyde, this.pinky, this.inky, this.blinky);
         
         this.sendExitOrder(this.pinky);

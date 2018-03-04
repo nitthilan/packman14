@@ -1,4 +1,10 @@
 var GameMenu = {
+	init: () => {
+		// this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  //       this.scale.pageAlignHorizontally = true;
+  //       this.scale.pageAlignVertically = true;
+
+	},
 
 	preload: () => {
 		//game.load.nineSlice('btn', 
@@ -15,18 +21,18 @@ var GameMenu = {
 
 		//alert("menu");
 		
-		var buttonS = game.add.button(game.world.centerX, game.world.centerY,
+		var buttonS = game.add.button(game.world.centerX-128, game.world.centerY,
 				 'singlePlayerButton', () => {this.buttonHandler('S')}, this, 1, 0, 3);
-		var buttonM = game.add.button(game.world.centerX, game.world.centerY + 105,
+		var buttonM = game.add.button(game.world.centerX-128, game.world.centerY + 105,
 				 'singlePlayerButton', () => {this.buttonHandler('M')}, this, 1, 0, 3);
 
 		var style0 = { font: "32px Arial", fill: "#ff0044", wordWrap: true, 
 				wordWrapWidth: 200, align: "center", backgroundColor: 'transparent' };
-		var text0 = game.add.text(game.world.centerX+25, game.world.centerY + 20, "single player", style0);
+		var text0 = game.add.text(game.world.centerX+25-128, game.world.centerY + 20, "single player", style0);
 
 		var style = { font: "32px Arial", fill: "#ff0044", wordWrap: true, 
 			wordWrapWidth: 2000, align: "center", backgroundColor: 'transparent' };
-		var text = game.add.text(game.world.centerX+25, game.world.centerY + 120, "multi player", style);
+		var text = game.add.text(game.world.centerX+25-128, game.world.centerY + 120, "multi player", style);
 	
 		
 
