@@ -95,6 +95,16 @@ Pacman.prototype.update = function() {
             this.sprite.x = 1;
         }
 
+
+        // var sprite_x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
+        // var sprite_y = (this.marker.y * this.gridsize) + (this.gridsize / 2);
+        global_game_state['players'][global_local_username]['sprite_x'] = this.sprite.x;
+        global_game_state['players'][global_local_username]['sprite_y'] = this.sprite.y;
+
+        pac_socket.emit('updateServerState', global_game_state);
+
+        //console.log("Pac Man ", this.sprite.x, this.sprite.y, global_local_username);
+
         //  Update our grid sensors
         this.directions[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
         this.directions[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
@@ -153,8 +163,10 @@ Pacman.prototype.checkKeys = function(cursors) {
     }
     console.log("The phaser state value ", this.want2go, global_game_state);
     if(this.want2go){
-        global_game_state['players'][global_local_username]['want2go'] = this.want2go;
-        pac_socket.emit('updateServerState', global_game_state);
+        // global_game_state['players'][global_local_username]['want2go'] = this.want2go;
+        // this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
+        // this.turnPoint.y = (this.marker.y * this.gridsize) + (this.gridsize / 2);
+        // pac_socket.emit('updateServerState', global_game_state);
     }
     
 
@@ -176,7 +188,7 @@ Pacman.prototype.checkKeys = function(cursors) {
 };
 
 Pacman.prototype.eatDot = function(pacman, dot) {
-    console.log("Dot state ", dot)
+    //console.log("Dot state ", dot)
     dot.kill();
     
     this.game.score ++;

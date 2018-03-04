@@ -3,6 +3,8 @@ var Pacman1 = function(game, key, otherPlayerId) {
     this.key = key;
 
     this.otherPlayerId = otherPlayerId
+
+    console.log("otherPlayerId", this.otherPlayerId)
     
     this.speed = 150;
     this.isDead = false;
@@ -83,6 +85,7 @@ Pacman1.prototype.move = function(direction) {
 
 Pacman1.prototype.update = function() {
     if (!this.isDead) {
+        //this.sprite.body.reset()
         this.game.physics.arcade.collide(this.sprite, this.game.layer);
         this.game.physics.arcade.overlap(this.sprite, this.game.dots, this.eatDot, null, this);
         this.game.physics.arcade.overlap(this.sprite, this.game.pills, this.eatPill, null, this);
@@ -97,16 +100,24 @@ Pacman1.prototype.update = function() {
             this.sprite.x = 1;
         }
 
-        //  Update our grid sensors
-        this.directions[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
-        this.directions[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
-        this.directions[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
-        this.directions[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
-
-        if (this.turning !== Phaser.NONE)
-        {
-            this.turn();
+        if(global_game_state['players'][this.otherPlayerId]['sprite_x']){
+            this.sprite.x = global_game_state['players'][this.otherPlayerId]['sprite_x'];
         }
+        if(global_game_state['players'][this.otherPlayerId]['sprite_y']){
+            this.sprite.y = global_game_state['players'][this.otherPlayerId]['sprite_y'];
+        }
+        // console.log("Pac Man 1 ", this.sprite.x, this.sprite.y, this.otherPlayerId);
+
+        // //  Update our grid sensors
+        // this.directions[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
+        // this.directions[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
+        // this.directions[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
+        // this.directions[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
+
+        // if (this.turning !== Phaser.NONE)
+        // {
+        //     this.turn();
+        // }
     } else {
         this.move(Phaser.NONE);
         if (!this.isAnimatingDeath) {
@@ -154,13 +165,13 @@ Pacman1.prototype.checkKeys = function() {
     //     this.turning = Phaser.NONE;
     //     this.want2go = Phaser.NONE;
     // } else {
-    console.log("OTHER PLAYER ID ",this.otherPlayerId, global_game_state)
-    if('want2go' in global_game_state['players'][this.otherPlayerId]){
-        this.want2go = global_game_state['players'][this.otherPlayerId]['want2go']
-        console.log("PACMAN1 Wants to go ", this.want2go);
-        this.checkDirection(this.want2go);    
+    // console.log("OTHER PLAYER ID ",this.otherPlayerId, global_game_state)
+    // if('want2go' in global_game_state['players'][this.otherPlayerId]){
+    //     this.want2go = global_game_state['players'][this.otherPlayerId]['want2go']
+    //     console.log("PACMAN1 Wants to go ", this.want2go);
+    //     this.checkDirection(this.want2go);    
 
-    }
+    // }
     // }
 };
 

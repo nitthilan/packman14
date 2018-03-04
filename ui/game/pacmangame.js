@@ -142,10 +142,16 @@ PacmanGame.prototype = {
          */
         this.resetData();
 
+        while(!global_local_username){
+            console.log("JUNK CODING");
+        }
+        var that = this;
+
         console.log("pacman state ", global_game_state, global_local_username)
         for(var key in global_game_state['players']){
-            if(global_game_state['players'][key] !== global_local_username)
-                this.otherplayer = key;
+            if(key !== global_local_username)
+                //console.log("CHECKING CONDITION ", global_game_state['players'][key], global_local_username)
+                that.otherplayer = key;
         }
         pac_socket.emit('updateServerState', global_game_state);
 
@@ -153,6 +159,8 @@ PacmanGame.prototype = {
             global_game_state = data;
             //console.log("updateClientState", data);
         });
+
+        //console.log("INIT otherplayerid, ", this.otherplayer  )
 
 
 
