@@ -1,90 +1,162 @@
 //var game = new Phaser.Game(448, 496, Phaser.AUTO, "game");
 
-var username = 'JohnD';
+// var username = 'mgiridhar';
 var PacmanGame = function () {};
+// var currentMode = 0;
+// var currentGameInfo = {
+//     'gameId': "5665",
+//     'players': {"mgiridhar": {'cursors': {'up': false, 'down': false, 'left': true, 'right': false},
+//                             'truning': null, 
+//                             'want2go': null,
+//                             'isDead': false},
+//                 'nitthilan': {'cursors': {'up': false, 'down': false, 'left': false, 'right': true},
+//                             'truning': null, 
+//                             'want2go': null,
+//                             'isDead': false} },
+//     'ghosts':{},
+// };
 
+// currentGameInfo['players'][username] = {'cursors': {'up': false, 'down': false, 'left': true, 'right': false},
+//                             'truning': null, 
+//                             'want2go': null,
+//                             'isDead': false,
+//                             'playerId': 0};
+// currentGameInfo['players'][otherplayer] = {'cursors': {'up': false, 'down': false, 'left': false, 'right': true},
+//                             'truning': null, 
+//                             'want2go': null,
+//                             'isDead': false,
+//                             'playerId': 1};
 
 PacmanGame.prototype = {
 
 
-	resetData: function(){
-	    this.map = null;
-	    this.layer = null;
-	    
-	    this.numDots = 0;
-	    this.TOTAL_DOTS = 0;
-	    this.score = 0;
-	    this.scoreText = null;
-	    
-	    this.pacman = null; 
-	    this.clyde = null;
-	    this.pinky = null;
-	    this.inky = null;
-	    this.blinky = null;
-	    this.isInkyOut = false;
-	    this.isClydeOut = false;
-	    this.ghosts = [];
+    resetData: function(){
 
-	    this.safetile = 14;
-	    this.gridsize = 16;       
-	    this.threshold = 3;
-	    
-	    this.SPECIAL_TILES = [
-	        { x: 12, y: 11 },
-	        { x: 15, y: 11 },
-	        { x: 12, y: 23 },
-	        { x: 15, y: 23 }
-	    ];
-	    
-	    this.TIME_MODES = [
-	        {
-	            mode: "scatter",
-	            time: 7000
-	        },
-	        {
-	            mode: "chase",
-	            time: 20000
-	        },
-	        {
-	            mode: "scatter",
-	            time: 7000
-	        },
-	        {
-	            mode: "chase",
-	            time: 20000
-	        },
-	        {
-	            mode: "scatter",
-	            time: 5000
-	        },
-	        {
-	            mode: "chase",
-	            time: 20000
-	        },
-	        {
-	            mode: "scatter",
-	            time: 5000
-	        },
-	        {
-	            mode: "chase",
-	            time: -1 // -1 = infinite
-	        }
-	    ];
-	    this.changeModeTimer = 0;
-	    this.remainingTime = 0;
-	    this.currentMode = 0;
-	    this.isPaused = false;
-	    this.FRIGHTENED_MODE_TIME = 7000;
-	    
-	    this.ORIGINAL_OVERFLOW_ERROR_ON = true;
-	    this.DEBUG_ON = true;
-	    
-	    this.KEY_COOLING_DOWN_TIME = 250;
-	    this.lastKeyPressed = 0;
-	},
+        Object.keys(global_game_state['players']).forEach(function(key) {
+            global_game_state['players'][key]['cursors'] = {'up': false, 'down': false, 'left': true, 'right': false};
+            console.log("Reseting state ", key, global_game_state[key]);
+        });
+
+        // currentGameInfo = {
+        //     'gameId': "5665",
+        //     'players': {},
+        //     'ghosts': {}
+        // };
+        // currentGameInfo['players'][username] = {'cursors': {'up': false, 'down': false, 'left': true, 'right': false},
+        //                             'truning': null, 
+        //                             'want2go': null,
+        //                             'isDead': false,
+        //                             'playerId': 0};
+        // currentGameInfo['players'][otherplayer] = {'cursors': {'up': false, 'down': false, 'left': false, 'right': true},
+        //                             'truning': null, 
+        //                             'want2go': null,
+        //                             'isDead': false,
+        //                             'playerId': 1};
+
+        this.map = null;
+        this.layer = null;
+        
+        this.numDots = 0;
+        this.TOTAL_DOTS = 0;
+        this.score = 0;
+        this.score1 = 0;
+        this.scoreText = null;
+        this.scoreText1 = null;
+        
+        this.pacman = null; 
+        this.pacman1 = null;
+
+        this.clyde = null;
+        this.pinky = null;
+        this.inky = null;
+        this.blinky = null;
+        this.isInkyOut = false;
+        this.isClydeOut = false;
+        this.ghosts = [];
+
+        this.safetile = 14;
+        this.gridsize = 16;       
+        this.threshold = 3;
+        
+        this.SPECIAL_TILES = [
+            { x: 12, y: 11 },
+            { x: 15, y: 11 },
+            { x: 12, y: 23 },
+            { x: 15, y: 23 }
+        ];
+        
+        this.TIME_MODES = [
+            {
+                mode: "scatter",
+                time: 7000
+            },
+            {
+                mode: "chase",
+                time: 20000
+            },
+            {
+                mode: "scatter",
+                time: 7000
+            },
+            {
+                mode: "chase",
+                time: 20000
+            },
+            {
+                mode: "scatter",
+                time: 5000
+            },
+            {
+                mode: "chase",
+                time: 20000
+            },
+            {
+                mode: "scatter",
+                time: 5000
+            },
+            {
+                mode: "chase",
+                time: -1 // -1 = infinite
+            }
+        ];
+        this.changeModeTimer = 0;
+        this.remainingTime = 0;
+        this.currentMode = 0;
+        this.isPaused = false;
+        this.FRIGHTENED_MODE_TIME = 7000;
+        
+        this.ORIGINAL_OVERFLOW_ERROR_ON = true;
+        this.DEBUG_ON = true;
+        
+        this.KEY_COOLING_DOWN_TIME = 250;
+        this.lastKeyPressed = 0;
+    },
 
     init: function () {
-    	this.resetData();
+
+        /*
+         socket.on('connect', function(data) {
+             socket.emit('addUser', 'nitthilan');
+             socket.emit('addGamePlayer', '5665, nitthilan');
+         });
+         */
+        this.resetData();
+
+        console.log("pacman state ", global_game_state, global_local_username)
+        pac_socket.emit('updateServerState', global_game_state);
+       
+        pac_socket.on('updateClientState', (data)=>{
+            global_game_state = data;
+            console.log(data);
+            for(var key in global_game_state['players']){
+                if(global_game_state['players'][key] !== username)
+                    this.otherplayer = global_game_state['players'][key];
+            }
+
+        });
+
+
+
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
@@ -104,6 +176,7 @@ PacmanGame.prototype = {
         this.load.image("pill", "assets/pill16.png");
         this.load.image('tiles', 'assets/pacman-tiles.png');
         this.load.spritesheet('pacman', 'assets/pacman.png', 32, 32);
+        this.load.spritesheet('pacman1', 'assets/pacman1.png', 32, 32);
         this.load.spritesheet("ghosts", "assets/ghosts32.png", 32, 32);
         this.load.tilemap('map', 'assets/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
 
@@ -111,47 +184,44 @@ PacmanGame.prototype = {
     },
 
     create: function () {
-    	//alert(username);
+        
         this.map = this.add.tilemap('map');
         this.map.addTilesetImage('pacman-tiles', 'tiles');
 
         this.layer = this.map.createLayer('Pacman');
-        this.width = 448
-        this.height = 496
-        
+
         this.dots = this.add.physicsGroup();
         this.numDots = this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
         this.TOTAL_DOTS = this.numDots;
-                
+        
         this.pills = this.add.physicsGroup();
         this.numPills = this.map.createFromTiles(40, this.safetile, "pill", this.layer, this.pills);
 
         //  The dots will need to be offset by 6px to put them back in the middle of the grid
-        // this.dots.setAll('x', this.world.centerX-(this.width/2)+6, false, false, 1);
-        // this.dots.setAll('y', this.world.centerY-(this.height/2)+6, false, false, 1);
-        // this.pills.setAll('x', this.world.centerX-(this.width/2), false, false, 1);
-        // this.pills.setAll('y', this.world.centerY-(this.height/2), false, false, 1);
-        // this.layer.position.set(this.world.centerX-this.width/2, this.world.centerY-this.height/2);
-        // this.layer.fixedToCamera = false;
+        this.dots.setAll('x', 6, false, false, 1);
+        this.dots.setAll('y', 6, false, false, 1);
 
         //  Pacman should collide with everything except the safe tile
         this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
-		// Our hero
+        // Our hero
         this.pacman = new Pacman(this, "pacman");
+
+        this.pacman1 = new Pacman1(this, "pacman");
 
         // Score and debug texts
         this.scoreText = game.add.text(8, 272, "Score: " + this.score, { fontSize: "16px", fill: "#fff" });
-        this.debugText = game.add.text(375, 260, "", { fontSize: "12px", fill: "#fff" });
-        this.overflowText = game.add.text(375, 280, "", { fontSize: "12px", fill: "#fff" });
+        this.scoreText1 = game.add.text(375, 272, "Score: " + this.score1, { fontSize: "16px", fill: "#fff" });
+        //this.overflowText = game.add.text(375, 280, "", { fontSize: "12px", fill: "#fff" });
         
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.cursors1 = {'up': false, 'down': false,'left': false,'right': false};
         this.cursors["d"] = this.input.keyboard.addKey(Phaser.Keyboard.D);
         this.cursors["b"] = this.input.keyboard.addKey(Phaser.Keyboard.B);
-        
+        //alert(username+" jdsk");
         //this.game.time.events.add(1250, this.sendExitOrder, this);
         //this.game.time.events.add(7000, this.sendAttackOrder, this);
-        
+        alert(this.TIME_MODES);
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         
         // Ghosts
@@ -166,8 +236,9 @@ PacmanGame.prototype = {
     },
 
     checkKeys: function () {
-        this.pacman.checkKeys(this.cursors);
-        
+        //this.pacman.checkKeys(this.cursors);
+        this.cursors1['right']= true;
+        //this.pacman1.checkKeys(global_game_state['players'][this.otherplayer]['cursors']);
         if (this.lastKeyPressed < this.time.time) {
             if (this.cursors.d.isDown) {
                 this.DEBUG_ON = (this.DEBUG_ON) ? false : true;
@@ -180,6 +251,10 @@ PacmanGame.prototype = {
         }
     },
     
+    getActions: function() {
+
+    },
+
     checkMouse: function() {
         if (this.input.mousePointer.isDown) {            
             var x = this.game.math.snapToFloor(Math.floor(this.input.x), this.gridsize) / this.gridsize;
@@ -189,14 +264,18 @@ PacmanGame.prototype = {
         }
     },
     
-    dogEatsDog: function(pacman, ghost) {
+    dogEatsDog: function(pacman, ghost, id) {
+        alert(id);
         if (this.isPaused) {
             this[ghost.name].mode = this[ghost.name].RETURNING_HOME;
             this[ghost.name].ghostDestination = new Phaser.Point(14 * this.gridsize, 14 * this.gridsize);
             this[ghost.name].resetSafeTiles();
-            this.score += 10;
+            if(id == 0)
+                this.score += 10;
+            else
+                this.score1 += 10;
         } else {
-            this.killPacman();
+            this.killPacman(id);
         }
     },
     
@@ -216,9 +295,13 @@ PacmanGame.prototype = {
         this.game.time.events.add(Math.random() * 3000, this.sendExitOrder, this, ghost);
     },
         
-    killPacman: function() {
-        this.pacman.isDead = true;
-        this.stopGhosts();
+    killPacman: function(id) {
+        if(id == 0)
+            this.pacman.isDead = true;
+        else
+            this.pacman1.isDead = true;
+        if(this.pacman.isDead && this.pacman1.isDead)
+            this.stopGhosts();
         
         //game.state.restart();
         //game.state.start('Over');
@@ -233,7 +316,9 @@ PacmanGame.prototype = {
     },
 
     update: function () {
+
         this.scoreText.text = "Score: " + this.score;
+        /*
         if (this.DEBUG_ON) {
             this.debugText.text = "Debug ON";
         } else {
@@ -244,11 +329,16 @@ PacmanGame.prototype = {
         } else {
             this.overflowText.text = "";
         }
-        
-        if (!this.pacman.isDead) {
+        */
+        if (!this.pacman.isDead || !this.pacman1.isDead) {
             for (var i=0; i<this.ghosts.length; i++) {
                 if (this.ghosts[i].mode !== this.ghosts[i].RETURNING_HOME) {
-                    this.physics.arcade.overlap(this.pacman.sprite, this.ghosts[i].ghost, this.dogEatsDog, null, this);
+                    if(!this.pacman.isDead)
+                        this.physics.arcade.overlap(this.pacman.sprite, 
+                            this.ghosts[i].ghost, () => {this.dogEatsDog(this.pacman, this.ghosts[i], 0)}, null, this);
+                    if(!this.pacman1.isDead)
+                        this.physics.arcade.overlap(this.pacman.sprite, 
+                            this.ghosts[i].ghost, () => {this.dogEatsDog(this.pacman1, this.ghosts[i], 1)}, null, this);
                 }
             }
             
@@ -262,6 +352,7 @@ PacmanGame.prototype = {
                 this.sendExitOrder(this.clyde);
             }
             
+
             if (this.changeModeTimer !== -1 && !this.isPaused && this.changeModeTimer < this.time.time) {
                 this.currentMode++;
                 this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
@@ -284,21 +375,29 @@ PacmanGame.prototype = {
             }
         }
 
-        if(this.pacman.isDead){
+        pac_socket.emit('updateServerState', global_game_state);
+        pac_socket.on('updateClientState', (data)=>{global_game_state = data});
 
-        	this.game.state.restart();
-        	this.game.state.start('menu');
-        	//alert("dead");
-        	
-        	//this.create();
+        if(this.pacman.isDead && this.pacman1.isDead){
 
-        	//game.state.start('gameLocal');
+            this.game.state.restart();
+            this.game.state.start('menu');
+            //alert("dead");
+            
+            //this.create();
+
+            //game.state.start('gameLocal');
         }else{
-    		this.pacman.update();
-			this.updateGhosts();
-        	this.checkKeys();
-        	this.checkMouse();
-    	}
+            this.pacman1.update();
+            this.pacman.update();
+            this.updateGhosts();
+
+
+
+
+            this.checkKeys();
+            this.checkMouse();
+        }
 
     },
     

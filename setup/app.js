@@ -51,13 +51,16 @@ io.on('connection', function(client){
     clients[name] = client.id;
   });
 
-  client.on('updateServerState', function(data) {
+  client.on('updateServerState', function(gameState) {
     //game.updateCursor(data['gameId'], data['name'], data['cursor']);
-    var gameState = data['gameState']; //game.getGameState(data['gameId']);
-    var gamePlayers = game.getGamePlayers(data['gameId']);
-
+    // var gameState = data; //game.getGameState(data['gameId']);
+    var gamePlayers = game.getGamePlayers(gameState['id']);
+    log.info(gameState);
+    log.info(clients);
     gamePlayers.forEach(function(player) {
-      io.sockets.connected[clients[player]].emit('updateClientState', gameState);
+      log.info(player);
+      if(clients[player])
+        io.sockets.connected[clients[player]].emit('updateClientState', gameState);
     });
   });
 
@@ -96,7 +99,7 @@ io.on('connection', function(client){
     var isSuccessful = game.addPlayer(gameid, username)
     console.log("Was things successful ", isSuccessful);
     console.log(JSON.stringify(gameMaster));
-    return callback()
+    return callback(gameState)
   });
 
   client.on('getGameMaster', function(callback){
