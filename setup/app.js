@@ -54,6 +54,8 @@ io.on('connection', function(client){
   client.on('updateServerState', function(gameState) {
     //game.updateCursor(data['gameId'], data['name'], data['cursor']);
     // var gameState = data; //game.getGameState(data['gameId']);
+    if(Object.keys(gameMaster.games).length == 0)
+      return;
     var gamePlayers = game.getGamePlayers(gameState['id']);
     log.info(gameState);
     log.info(clients);
@@ -64,8 +66,9 @@ io.on('connection', function(client){
     });
   });
 
-  client.on('kill', function() {
-
+  client.on('killState', function(data) {
+    gameMaster.users = {};
+    gameMaster.games = {};
   });
 
   client.on('addGame', function(username, callback) {
