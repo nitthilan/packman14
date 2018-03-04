@@ -75,6 +75,13 @@ var GameWait = {
 
 	buttonHandler: (keyPressed, game_id) => {
 		var username = inputBox.value;
+		if(!username){
+			console.log("NO username ", username);
+			return
+		}
+		else{
+			console.log("username ", username);
+		}
 
 		if(keyPressed === 'NEW'){
 			pac_socket.emit('addGame',username, function(){

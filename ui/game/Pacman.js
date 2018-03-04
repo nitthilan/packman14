@@ -176,6 +176,7 @@ Pacman.prototype.checkKeys = function(cursors) {
 };
 
 Pacman.prototype.eatDot = function(pacman, dot) {
+    console.log("Dot state ", dot)
     dot.kill();
     
     this.game.score ++;

@@ -149,10 +149,7 @@ PacmanGame.prototype = {
         }
         pac_socket.emit('updateServerState', global_game_state);
        
-        pac_socket.on('updateClientState', (data)=>{
-            global_game_state = data;
-            //console.log("updateClientState", data);
-        });
+        
 
 
 
