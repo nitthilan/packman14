@@ -3,7 +3,7 @@ var GameWait = {
 
 	
 	preload: ()=>{
-		game.load.nineSlice('input', 'assets/inputfield.png', 15);
+		//game.load.nineSlice('input', 'assets/inputfield.png', 15);
 	},
 
 	create: function(){
@@ -28,7 +28,10 @@ var GameWait = {
             zoom: true
         });
 		var buttonJOIN = game.add.button(game.world.centerX, game.world.centerY,
-		 'singlePlayerButton', () => {this.buttonHandler('J')}, this, 0, 1, 2, 3);
+		 'singlePlayerButton', () => {this.buttonHandler('J')}, this, 	1, 0, 3);
+				var style = { font: "32px Arial", fill: "#ff0044", wordWrap: true, 
+			wordWrapWidth: 2000, align: "center", backgroundColor: 'transparent' };
+		var text = game.add.text(game.world.centerX+25, game.world.centerY + 20, "Join Game", style);
 	},
 
 	buttonHandler: (strKey) => {
