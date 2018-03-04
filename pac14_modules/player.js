@@ -12,7 +12,7 @@ module.exports = function(gameMaster, log) {
       gameMaster.users[username]['num_wins'] = 0;
     }
     else {
-      log.warn(newUser + ' already available');
+      log.warn(username + ' already available');
     }
   }
 

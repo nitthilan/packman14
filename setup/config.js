@@ -6,6 +6,6 @@ module.exports = {
     static_path:require('path').normalize(__dirname + '/../ui')+"/",
     //temp_folder_path:require('path').normalize(__dirname + '/../../temp')+"/",
     host:'localhost',
-    port:'3000',
+    port:'8000',
   }
 }

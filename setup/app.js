@@ -27,15 +27,43 @@ var gameMaster = require(config.root + '/pac14_modules/gameMaster.js')();
 
 //Player
 var player = require(config.root + '/pac14_modules/player.js')(gameMaster, log);
-//var players = new player(games);
-//console.log(player);
+
 //Game
 var game = require(config.root + '/pac14_modules/game.js')(gameMaster, log);
 
-//var games = new gameMaster(game, player);
-//console.log(games.onGamesList);
-//console.log(games.usersList);
+var clients = {};
 
+io.on('connection', function(client){
+
+  client.on('addUser', function(name) {
+    player.add(name);
+    clients[name] = client.id;
+    //console.log(gameMaster);
+  });
+
+  client.on('existingUser', function(name) {
+    clients[name] = client.id;
+  });
+
+  client.on('updateServerState', function(data) {
+    //game.updateCursor(data['gameId'], data['name'], data['cursor']);
+    var gameState = data['gameState']; //game.getGameState(data['gameId']);
+    var gamePlayers = game.getGamePlayers(data['gameId']);
+
+    gamePlayers.forEach(function(player) {
+      io.sockets.connected[clients[player]].emit('updateClientState', gameState);
+    });
+  });
+
+  client.on('kill', function() {
+
+  });
+
+  client.on('getGameMaster', function(callback){
+    return callback(gameMaster)
+  })
+});
+/*
 io.on('connection', function(client){
   client.on('addUser', function(name) {
     //console.log(name);
@@ -51,19 +79,20 @@ io.on('connection', function(client){
     var gameId = game.addGame(name);
     //console.log(gameId);
     //game.addGame(gameId,name);
-    console.log(gameMaster);
+    console.log(JSON.stringify(gameMaster));
   });
   client.on('addGamePlayer', function(data) {
     var gameId = data.split(',')[0];
     var name = data.split(',')[1];
+    console.log(gameId);
+    console.log(name);
     console.log(game.addPlayer(gameId, name));
     console.log(JSON.stringify(gameMaster));
   });
 
-  client.on('getGameMaster', function(callback){
-    return callback(gameMaster)
-  })
 
-})
+});
+*/
 
 server.listen(config.port);
+log.debug("server port", config.port)
