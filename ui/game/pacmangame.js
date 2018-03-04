@@ -1,5 +1,6 @@
 //var game = new Phaser.Game(448, 496, Phaser.AUTO, "game");
 
+var username = 'JohnD';
 var PacmanGame = function () {};
 
 
@@ -110,7 +111,7 @@ PacmanGame.prototype = {
     },
 
     create: function () {
-    	//alert("create called");
+    	alert(username);
         this.map = this.add.tilemap('map');
         this.map.addTilesetImage('pacman-tiles', 'tiles');
 
