@@ -1,4 +1,4 @@
-var Pacman = function(game, key) {   
+var Pacman = function(game, key) { 
     this.game = game;
     this.key = key;
     
@@ -114,14 +114,14 @@ Pacman.prototype.update = function() {
     }
 };
 
-var set_global_game_state_direction = function(direction){
-    global_game_state['players'][global_local_username]['cursors']['left'] = false;
-    global_game_state['players'][global_local_username]['cursors']['right'] = false;
-    global_game_state['players'][global_local_username]['cursors']['up'] = false;
-    global_game_state['players'][global_local_username]['cursors']['down'] = false;
-    global_game_state['players'][global_local_username]['cursors'][direction] = true;
+// var set_global_game_state_direction = function(direction){
+//     global_game_state['players'][global_local_username]['cursors']['left'] = false;
+//     global_game_state['players'][global_local_username]['cursors']['right'] = false;
+//     global_game_state['players'][global_local_username]['cursors']['up'] = false;
+//     global_game_state['players'][global_local_username]['cursors']['down'] = false;
+//     global_game_state['players'][global_local_username]['cursors'][direction] = true;
 
-}
+// }
 
 Pacman.prototype.checkKeys = function(cursors) {
     if (cursors.left.isDown ||
@@ -134,37 +134,44 @@ Pacman.prototype.checkKeys = function(cursors) {
     if (cursors.left.isDown && this.current !== Phaser.LEFT)
     {
         this.want2go = Phaser.LEFT;
-        set_global_game_state_direction('left')
+        // set_global_game_state_direction('left')
     }
     else if (cursors.right.isDown && this.current !== Phaser.RIGHT)
     {
         this.want2go = Phaser.RIGHT;
-        set_global_game_state_direction('right')
+        // set_global_game_state_direction('right')
     }
     else if (cursors.up.isDown && this.current !== Phaser.UP)
     {
         this.want2go = Phaser.UP;
-        set_global_game_state_direction('up')
+        // set_global_game_state_direction('up')
     }
     else if (cursors.down.isDown && this.current !== Phaser.DOWN)
     {
         this.want2go = Phaser.DOWN;
-        set_global_game_state_direction('down')
+        // set_global_game_state_direction('down')
     }
+    console.log("The phaser state value ", this.want2go, global_game_state);
+    if(this.want2go){
+        global_game_state['players'][global_local_username]['want2go'] = this.want2go;
+        pac_socket.emit('updateServerState', global_game_state);
+    }
+    
 
     if (this.game.time.time > this.keyPressTimer)
     {
+        console.log("DO I EVER COME INTO THIS LOGIC :(")
         //  This forces them to hold the key down to turn the corner
-        global_game_state['players'][global_local_username]['turning'] = null;
-        global_game_state['players'][global_local_username]['want2go'] = null;
-        pac_socket.emit('updateServerState', global_game_state);
-        pac_socket.on('updateClientState', (data)=>{global_game_state = data});
+        // global_game_state['players'][global_local_username]['turning'] = null;
+        // global_game_state['players'][global_local_username]['want2go'] = null;
+        // pac_socket.emit('updateServerState', global_game_state);
+        //pac_socket.on('updateClientState', (data)=>{global_game_state = data});
         this.turning = Phaser.NONE;
         this.want2go = Phaser.NONE;
     } else {
-        pac_socket.emit('updateServerState', global_game_state);
-        pac_socket.on('updateClientState', (data)=>{global_game_state = data});
-        this.checkDirection(this.want2go);    
+        //pac_socket.emit('updateServerState', global_game_state);
+        //pac_socket.on('updateClientState', (data)=>{global_game_state = data});
+            this.checkDirection(this.want2go);    
     }
 };
 

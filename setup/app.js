@@ -93,12 +93,13 @@ io.on('connection', function(client){
     var gamePlayers = game.getGamePlayers(gameid);
     var gameState = game.getGameState(gameid)
 
-    gamePlayers.forEach(function(player) {
-      io.sockets.connected[clients[player]].emit('sendGSForPlayer1', gameState);
-    });
     var isSuccessful = game.addPlayer(gameid, username)
     console.log("Was things successful ", isSuccessful);
     console.log(JSON.stringify(gameMaster));
+    gamePlayers.forEach(function(player) {
+      io.sockets.connected[clients[player]].emit('sendGSForPlayer1', gameState);
+    });
+
     return callback(gameState)
   });
 

@@ -1,6 +1,8 @@
-var Pacman1 = function(game, key) {   
+var Pacman1 = function(game, key, otherPlayerId) {   
     this.game = game;
     this.key = key;
+
+    this.otherPlayerId = otherPlayerId
     
     this.speed = 150;
     this.isDead = false;
@@ -115,46 +117,51 @@ Pacman1.prototype.update = function() {
 };
 
 Pacman1.prototype.checkKeys = function() {
-    if (cursors.left ||
-        cursors.right ||
-        cursors.up ||
-        cursors.down) {
-        this.keyPressTimer = this.game.time.time + this.KEY_COOLING_DOWN_TIME;
-    }
+    // if (cursors.left ||
+    //     cursors.right ||
+    //     cursors.up ||
+    //     cursors.down) {
+    //     this.keyPressTimer = this.game.time.time + this.KEY_COOLING_DOWN_TIME;
+    // }
 
-    var local2go = null;
-    var localTuring = null;
+    // var local2go = null;
+    // var localTuring = null;
 
-    if (cursors['left'] && this.current !== Phaser.LEFT)
-    {
-        this.want2go = Phaser.LEFT;
-    }
-    else if (cursors['right'] && this.current !== Phaser.RIGHT)
+    // if (cursors['left'] && this.current !== Phaser.LEFT)
+    // {
+    //     this.want2go = Phaser.LEFT;
+    // }
+    // else if (cursors['right'] && this.current !== Phaser.RIGHT)
 
-    {
-        //alert('called');
-        this.want2go = Phaser.RIGHT;
-    }
-    else if (cursors['up'] && this.current !== Phaser.UP)
-    {
-        this.want2go = Phaser.UP;
-    }
-    else if (cursors['down'] && this.current !== Phaser.DOWN)
-    {
-        this.want2go = Phaser.DOWN;
-    }
+    // {
+    //     //alert('called');
+    //     this.want2go = Phaser.RIGHT;
+    // }
+    // else if (cursors['up'] && this.current !== Phaser.UP)
+    // {
+    //     this.want2go = Phaser.UP;
+    // }
+    // else if (cursors['down'] && this.current !== Phaser.DOWN)
+    // {
+    //     this.want2go = Phaser.DOWN;
+    // }
 
 
+    // if (this.game.time.time > this.keyPressTimer)
+    // {
+    //     //  This forces them to hold the key down to turn the corner
 
-    if (this.game.time.time > this.keyPressTimer)
-    {
-        //  This forces them to hold the key down to turn the corner
-
-        this.turning = Phaser.NONE;
-        this.want2go = Phaser.NONE;
-    } else {
+    //     this.turning = Phaser.NONE;
+    //     this.want2go = Phaser.NONE;
+    // } else {
+    console.log("OTHER PLAYER ID ",this.otherPlayerId, global_game_state)
+    if('want2go' in global_game_state['players'][this.otherPlayerId]){
+        this.want2go = global_game_state['players'][this.otherPlayerId]['want2go']
+        console.log("PACMAN1 Wants to go ", this.want2go);
         this.checkDirection(this.want2go);    
+
     }
+    // }
 };
 
 Pacman1.prototype.eatDot = function(pacman, dot) {

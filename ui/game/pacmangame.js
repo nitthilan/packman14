@@ -32,10 +32,10 @@ PacmanGame.prototype = {
 
     resetData: function(){
 
-        Object.keys(global_game_state['players']).forEach(function(key) {
-            global_game_state['players'][key]['cursors'] = {'up': false, 'down': false, 'left': true, 'right': false};
-            console.log("Reseting state ", key, global_game_state[key]);
-        });
+        // Object.keys(global_game_state['players']).forEach(function(key) {
+        //     global_game_state['players'][key]['cursors'] = {'up': false, 'down': false, 'left': true, 'right': false};
+        //     console.log("Reseting state ", key, global_game_state[key]);
+        // });
 
         // currentGameInfo = {
         //     'gameId': "5665",
@@ -143,16 +143,15 @@ PacmanGame.prototype = {
         this.resetData();
 
         console.log("pacman state ", global_game_state, global_local_username)
+        for(var key in global_game_state['players']){
+            if(global_game_state['players'][key] !== global_local_username)
+                this.otherplayer = key;
+        }
         pac_socket.emit('updateServerState', global_game_state);
        
         pac_socket.on('updateClientState', (data)=>{
             global_game_state = data;
-            console.log(data);
-            for(var key in global_game_state['players']){
-                if(global_game_state['players'][key] !== username)
-                    this.otherplayer = global_game_state['players'][key];
-            }
-
+            //console.log("updateClientState", data);
         });
 
 
@@ -176,7 +175,7 @@ PacmanGame.prototype = {
         this.load.image("pill", "assets/pill16.png");
         this.load.image('tiles', 'assets/pacman-tiles.png');
         this.load.spritesheet('pacman', 'assets/pacman.png', 32, 32);
-        this.load.spritesheet('pacman1', 'assets/pacman1.png', 32, 32);
+        this.load.spritesheet('pacman1', 'assets/pacman_red.png', 32, 32);
         this.load.spritesheet("ghosts", "assets/ghosts32.png", 32, 32);
         this.load.tilemap('map', 'assets/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
 
@@ -207,7 +206,7 @@ PacmanGame.prototype = {
         // Our hero
         this.pacman = new Pacman(this, "pacman");
 
-        this.pacman1 = new Pacman1(this, "pacman");
+        this.pacman1 = new Pacman1(this, "pacman1", this.otherplayer);
 
         // Score and debug texts
         this.scoreText = game.add.text(8, 272, "Score: " + this.score, { fontSize: "16px", fill: "#fff" });
@@ -221,7 +220,7 @@ PacmanGame.prototype = {
         //alert(username+" jdsk");
         //this.game.time.events.add(1250, this.sendExitOrder, this);
         //this.game.time.events.add(7000, this.sendAttackOrder, this);
-        alert(this.TIME_MODES);
+        //alert(this.TIME_MODES);
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         
         // Ghosts
@@ -236,9 +235,9 @@ PacmanGame.prototype = {
     },
 
     checkKeys: function () {
-        //this.pacman.checkKeys(this.cursors);
-        this.cursors1['right']= true;
-        //this.pacman1.checkKeys(global_game_state['players'][this.otherplayer]['cursors']);
+        this.pacman.checkKeys(this.cursors);
+        //this.cursors1['right']= true;
+        this.pacman1.checkKeys();
         if (this.lastKeyPressed < this.time.time) {
             if (this.cursors.d.isDown) {
                 this.DEBUG_ON = (this.DEBUG_ON) ? false : true;
@@ -265,7 +264,7 @@ PacmanGame.prototype = {
     },
     
     dogEatsDog: function(pacman, ghost, id) {
-        alert(id);
+        //alert(id);
         if (this.isPaused) {
             this[ghost.name].mode = this[ghost.name].RETURNING_HOME;
             this[ghost.name].ghostDestination = new Phaser.Point(14 * this.gridsize, 14 * this.gridsize);
@@ -316,6 +315,7 @@ PacmanGame.prototype = {
     },
 
     update: function () {
+
 
         this.scoreText.text = "Score: " + this.score;
         /*
@@ -376,7 +376,6 @@ PacmanGame.prototype = {
         }
 
         pac_socket.emit('updateServerState', global_game_state);
-        pac_socket.on('updateClientState', (data)=>{global_game_state = data});
 
         if(this.pacman.isDead && this.pacman1.isDead){
 
