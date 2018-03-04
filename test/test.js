@@ -1,6 +1,6 @@
 //client
 
-var socket = require('socket.io-client')('http://localhost:3000');
+var socket = require('socket.io-client')('http://localhost:8000');
 //var socket = io.connect('http://127.0.0.1:4200');
  socket.on('connect', function(data) {
     //socket.emit('join', 'Hello World from client');
@@ -8,12 +8,12 @@ var socket = require('socket.io-client')('http://localhost:3000');
     //	socket.emit('messages', 'Just checking');
     //}, 5000);
 	 //socket.emit('addUser', 'mgiridhar');
-	 //socket.emit('addUser', 'nitthilan');
+	 socket.emit('addUser', 'nitthilan');
 	 //socket.emit('playerExists', 'mgiridhar');
 	 //socket.emit('playerExists', 'nitthilan');
 	 //socket.emit('addGame', 'mgiridhar')
-	 socket.emit('addGamePlayer', '7485,mgiridhar');
-	 socket.emit('addGamePlayer', '7485,nitthilan');
+	 //socket.emit('addGamePlayer', '1864,mgiridhar');
+	 socket.emit('addGamePlayer', '7806,nitthilan');
  });
 
 //socket.on('messages', function(data) {
