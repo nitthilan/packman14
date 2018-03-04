@@ -57,7 +57,7 @@ io.on('connection', function(client){
     var gameId = data.split(',')[0];
     var name = data.split(',')[1];
     console.log(game.addPlayer(gameId, name));
-    console.log(gameMaster.stringify());
+    console.log(JSON.stringify(gameMaster));
   });
 
 })

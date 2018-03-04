@@ -12,8 +12,8 @@ var socket = require('socket.io-client')('http://localhost:3000');
 	 //socket.emit('playerExists', 'mgiridhar');
 	 //socket.emit('playerExists', 'nitthilan');
 	 //socket.emit('addGame', 'mgiridhar')
-	 socket.emit('addGamePlayer', '455,mgiridhar');
-	 socket.emit('addGamePlayer', '455,nitthilan');
+	 socket.emit('addGamePlayer', '7485,mgiridhar');
+	 socket.emit('addGamePlayer', '7485,nitthilan');
  });
 
 //socket.on('messages', function(data) {
