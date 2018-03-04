@@ -1,16 +1,31 @@
-<!doctype html>  
-<html lang="en">  
-    <head>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Phaser Pacman clone</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            line-height: 10px;
+            font-size: 14px;
+        }
+    </style>
+    <script src="phaser.min.js"></script>
+</head>
+<body>
+	<div>
+	    <p>Cursor keys to move Pacman</p>
+	    <p>"D" key to (de)activate Debug mode</p>
+	    <p>"B" key to (de)activate original Overflow "Bug"</p>
+	</div>
 
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-        <div id="future"></div>
-        <form id="form" id="chat_form">
-            <input id="chat_input" type="text">
-            <input type="submit" value="Send">
-        </form>
-         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="lib/socket.io-client/socket.io.js"></script>            
-    </body>
-</html>  
+    <script src="game/Pacman.js"></script>
+    <script src="game/Ghost.js"></script>
+    <script src="game/pacmangame.js"></script>
+    <script src="game_main.js"></script>
+</body>
+</html>

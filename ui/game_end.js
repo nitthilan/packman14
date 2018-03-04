@@ -1,0 +1,5 @@
+var GameEnd = {
+	create: function(){
+
+	},
+};

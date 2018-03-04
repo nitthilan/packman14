@@ -1,0 +1,7 @@
+var GameWait = {
+
+	create: function(){
+
+	},
+
+};
