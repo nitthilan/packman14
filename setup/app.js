@@ -35,7 +35,13 @@ var clients = {};
 
 io.on('connection', function(client){
 
-  client.on('addUser', function(name) {
+  client.on('addUser', function(name, callback) {
+    player.add(name);
+    clients[name] = client.id;
+    //console.log(gameMaster);
+  });
+
+  client.on('addUser', function(name, callback) {
     player.add(name);
     clients[name] = client.id;
     //console.log(gameMaster);
@@ -59,7 +65,42 @@ io.on('connection', function(client){
 
   });
 
+  client.on('addGame', function(username, callback) {
+    if(!player.exists(username)){
+      player.add(username);
+    }
+    clients[username] = client.id;
+
+    var gameId = game.addGame(username);
+    //console.log(gameId);
+    //game.addGame(gameId,name);
+    console.log(JSON.stringify(gameMaster));
+    return callback()
+  });
+  client.on('addGamePlayer', function(gameid, username, callback) {
+
+    console.log(gameid);
+    console.log(username);
+
+    if(!player.exists(username)){
+      player.add(username);
+    }
+    clients[username] = client.id;
+
+    var gamePlayers = game.getGamePlayers(gameid);
+    var gameState = game.getGameState(gameid)
+
+    gamePlayers.forEach(function(player) {
+      io.sockets.connected[clients[player]].emit('sendGSForPlayer1', gameState);
+    });
+    var isSuccessful = game.addPlayer(gameid, username)
+    console.log("Was things successful ", isSuccessful);
+    console.log(JSON.stringify(gameMaster));
+    return callback()
+  });
+
   client.on('getGameMaster', function(callback){
+    console.log("getGameMaster Triggered ", gameMaster)
     return callback(gameMaster)
   })
 });
@@ -93,6 +134,6 @@ io.on('connection', function(client){
 
 });
 */
+log.warn("server port", config.port)
 
 server.listen(config.port);
-log.debug("server port", config.port)

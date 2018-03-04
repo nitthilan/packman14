@@ -3,10 +3,10 @@ module.exports = function(gameMaster, log) {
   var numPlayers = 2;
 
   var addGame = function(username) {
-    var gameId = Math.round(Math.random() * 10000); // generate random game id
+    var gameId = ""+Math.round(Math.random() * 10000); // generate random game id
     gameMaster.games[gameId] = {};
     gameMaster.games[gameId]['id'] = gameId;
-    gameMaster.games[gameId]['name'] = 'Game-' + gameId;
+    gameMaster.games[gameId]['name'] = gameId;
     gameMaster.games[gameId]['players'] = {};
     gameMaster.games[gameId]['players'][username] = {'scores': 0 , 'color': 'white'};
     //gameMaster.games[gameId]['scores'] = [0];
@@ -50,6 +50,7 @@ module.exports = function(gameMaster, log) {
   }
 
   var getGamePlayers = function(gameId) {
+    log.warn("Get game players ", gameId)
     return Object.keys(gameMaster.games[gameId]['players']);
   }
 
